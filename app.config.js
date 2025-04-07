@@ -2,43 +2,39 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: "fitness-tracker",
-    slug: "fitness-tracker",
-    version: "1.0.0",
-    orientation: "portrait",
-    icon: "./assets/images/icon.png",
-    scheme: "myapp",
-    userInterfaceStyle: "automatic",
+    name: 'fitness-tracker',
+    slug: 'fitness-tracker',
+    version: '1.0.0',
+    orientation: 'portrait',
+    icon: './assets/images/icon.png',
+    scheme: 'myapp',
+    userInterfaceStyle: 'automatic',
     splash: {
-      image: "./assets/images/splash.png",
-      resizeMode: "contain",
-      backgroundColor: "#ffffff"
+      image: './assets/images/splash.png',
+      resizeMode: 'contain',
+      backgroundColor: '#ffffff',
     },
-    assetBundlePatterns: [
-      "**/*"
-    ],
+    assetBundlePatterns: ['**/*'],
     ios: {
-      supportsTablet: true
+      supportsTablet: true,
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/images/adaptive-icon.png",
-        backgroundColor: "#ffffff"
-      }
+        foregroundImage: './assets/images/adaptive-icon.png',
+        backgroundColor: '#ffffff',
+      },
     },
     web: {
-      bundler: "metro",
-      output: "static",
-      favicon: "./assets/images/favicon.png"
+      bundler: 'metro',
+      output: 'static',
+      favicon: './assets/images/favicon.png',
     },
-    plugins: [
-      "expo-router"
-    ],
+    plugins: ['expo-router'],
     experiments: {
-      typedRoutes: true
+      typedRoutes: true,
     },
     extra: {
-      projectId: process.env.EXPO_PROJECT_ID
-    }
-  }
-}; 
+      projectId: process.env.EXPO_PROJECT_ID,
+    },
+  },
+};
