@@ -36,6 +36,9 @@ export default {
     },
     extra: {
       projectId: process.env.EXPO_PROJECT_ID,
+      eas: {
+        projectId: process.env.EXPO_PROJECT_ID,
+      },
     },
   },
 };
