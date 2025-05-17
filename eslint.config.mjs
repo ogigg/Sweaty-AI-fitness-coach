@@ -29,10 +29,6 @@ export default [
 
       ecmaVersion: 5,
       sourceType: 'script',
-
-      parserOptions: {
-        project: 'tsconfig.json',
-      },
     },
     plugins: {
       prettier: prettier,
