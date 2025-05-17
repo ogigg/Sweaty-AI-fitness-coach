@@ -1,9 +1,10 @@
 {
-    "onboarding": {
-        "welcome": "Welcome to Fitness Tracker!",
-        "welcomeDescription": "Your personalized AI coach adapts to your progress, helping you build strength and confidence in the gym, safely and effectively.",
-        "getStarted": "Get Started",
-        "skip": "Skip"
-        
+  "onboarding": {
+    "firstScreen": {
+      "welcome": "Start Your Fitness Journey, Smarter",
+      "welcomeDescription": "Your personalized AI coach adapts to your progress, helping you build strength and confidence in the gym, safely and effectively.",
+      "getStarted": "Get Started",
+      "skip": "Skip"
     }
+  }
 }

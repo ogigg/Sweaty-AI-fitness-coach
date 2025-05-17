@@ -18,7 +18,8 @@ export default [
     'airbnb',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'prettier'
+    'prettier',
+    'plugin:react/jsx-runtime'
   ),
   {
     languageOptions: {
