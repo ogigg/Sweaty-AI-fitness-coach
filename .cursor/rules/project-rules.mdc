@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+When developing or modifying existing component use typography and colors from [typography.ts](mdc:theme/typography.ts), [colors.ts](mdc:theme/colors.ts) 
+
+When adding text add them to [en.json](mdc:i18n/locales/en.json) and use i18n.
+
+App name is "Sweaty"

@@ -1,0 +1,136 @@
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Typography } from '../../components/Typography';
+import { useTheme } from '../../theme';
+// import * as Notifications from 'expo-notifications'; // Uncomment if using Expo Notifications
+
+const TOTAL_STEPS = 7;
+const CURRENT_STEP = 6;
+
+// Placeholder illustration (replace with real asset as needed)
+const BELL_ICON = require('../../assets/images/react-logo.png');
+
+function ProgressDots({ total, current }: { total: number; current: number }) {
+  const theme = useTheme();
+  return (
+    <View style={styles.dotsContainer}>
+      {Array.from({ length: total }).map((_, i) => (
+        <View
+          key={i}
+          style={[styles.dot, i + 1 === current && { backgroundColor: theme.colors.accentPrimary }]}
+        />
+      ))}
+    </View>
+  );
+}
+
+export default function NotificationsScreen() {
+  const theme = useTheme();
+  const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
+
+  // Placeholder for notification permission logic
+  const handleEnableNotifications = async () => {
+    setLoading(true);
+    // Uncomment and use real permission logic if using Expo Notifications
+    // const { status } = await Notifications.requestPermissionsAsync();
+    setTimeout(() => {
+      setLoading(false);
+      router.push('/onboarding/all-set');
+    }, 800);
+  };
+
+  const handleMaybeLater = () => {
+    router.push('/onboarding/all-set');
+  };
+
+  return (
+    <View style={[styles.container, { backgroundColor: theme.colors.backgroundPrimary }]}>
+      <Typography variant='h2' align='center' style={styles.headline}>
+        {t('onboarding.notifications.headline')}
+      </Typography>
+      <View style={styles.illustrationContainer}>
+        <Image source={BELL_ICON} style={styles.illustration} resizeMode='contain' />
+      </View>
+      <Typography variant='bodyLarge' color='secondary' align='center' style={styles.subtext}>
+        {t('onboarding.notifications.subtext')}
+      </Typography>
+      <TouchableOpacity
+        style={[
+          styles.button,
+          { backgroundColor: theme.colors.accentPrimary, opacity: loading ? 0.7 : 1 },
+        ]}
+        activeOpacity={0.85}
+        onPress={handleEnableNotifications}
+        disabled={loading}
+      >
+        <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
+          {t('onboarding.notifications.enable')}
+        </Typography>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.linkButton} onPress={handleMaybeLater} disabled={loading}>
+        <Typography
+          variant='button'
+          align='center'
+          style={{ ...styles.linkText, color: theme.colors.accentPrimary }}
+        >
+          {t('onboarding.notifications.maybeLater')}
+        </Typography>
+      </TouchableOpacity>
+      <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+  },
+  headline: {
+    marginBottom: 24,
+  },
+  illustrationContainer: {
+    marginBottom: 24,
+    alignItems: 'center',
+  },
+  illustration: {
+    width: 80,
+    height: 80,
+  },
+  subtext: {
+    marginBottom: 32,
+    maxWidth: 320,
+  },
+  button: {
+    width: '100%',
+    borderRadius: 12,
+    paddingVertical: 16,
+    marginBottom: 12,
+  },
+  buttonText: {
+    color: '#fff',
+  },
+  linkButton: {
+    marginBottom: 48,
+  },
+  linkText: {
+    textDecorationLine: 'underline',
+  },
+  dotsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#D1D1D6',
+    marginHorizontal: 4,
+  },
+});

@@ -27,8 +27,8 @@ export default function RootLayout() {
   }, [loaded]);
 
   useEffect(() => {
-    if (loaded && isAuthenticated === false) {
-      router.replace('/onboarding/first-screen');
+    if (loaded && !isAuthenticated) {
+      router.replace('/onboarding/welcome');
     }
   }, [loaded, isAuthenticated]);
 

@@ -1,0 +1,165 @@
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Typography } from '../../components/Typography';
+import { useTheme } from '../../theme';
+
+const TOTAL_STEPS = 7;
+const CURRENT_STEP = 2;
+
+// Placeholder icons (replace with real assets as needed)
+const icons = {
+  muscle: require('../../assets/images/react-logo.png'),
+  weight: require('../../assets/images/react-logo.png'),
+  fitness: require('../../assets/images/react-logo.png'),
+};
+
+const GOALS = [
+  {
+    key: 'buildMuscle',
+    label: 'Build Muscle',
+    description: 'Gain strength and muscle mass',
+    icon: icons.muscle,
+  },
+  {
+    key: 'loseWeight',
+    label: 'Lose Weight',
+    description: 'Burn fat and slim down',
+    icon: icons.weight,
+  },
+  {
+    key: 'generalFitness',
+    label: 'General Fitness',
+    description: 'Improve overall health and energy',
+    icon: icons.fitness,
+  },
+];
+
+function ProgressDots({ total, current }: { total: number; current: number }) {
+  const theme = useTheme();
+  return (
+    <View style={styles.dotsContainer}>
+      {Array.from({ length: total }).map((_, i) => (
+        <View
+          key={i}
+          style={[styles.dot, i + 1 === current && { backgroundColor: theme.colors.accentPrimary }]}
+        />
+      ))}
+    </View>
+  );
+}
+
+export default function GoalScreen() {
+  const theme = useTheme();
+  const { t } = useTranslation();
+  const [selected, setSelected] = useState<string | null>(null);
+
+  return (
+    <ScrollView
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: theme.colors.backgroundPrimary },
+      ]}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps='handled'
+    >
+      <Typography variant='h2' align='center' style={styles.headline}>
+        {t('onboarding.goal.headline')}
+      </Typography>
+      <View style={styles.cardsContainer}>
+        {GOALS.map((goal) => (
+          <TouchableOpacity
+            key={goal.key}
+            style={[
+              styles.card,
+              selected === goal.key && {
+                borderColor: theme.colors.accentPrimary,
+                backgroundColor: theme.colors.surface,
+              },
+            ]}
+            activeOpacity={0.85}
+            onPress={() => setSelected(goal.key)}
+          >
+            <Image source={goal.icon} style={styles.icon} />
+            <Typography variant='h3' align='center' style={styles.cardLabel}>
+              {t(`onboarding.goal.goals.${goal.key}.label`)}
+            </Typography>
+            <Typography variant='bodyMedium' color='secondary' align='center'>
+              {t(`onboarding.goal.goals.${goal.key}.description`)}
+            </Typography>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <TouchableOpacity
+        style={[
+          styles.button,
+          { backgroundColor: selected ? theme.colors.accentPrimary : theme.colors.borderDefault },
+        ]}
+        activeOpacity={selected ? 0.85 : 1}
+        disabled={!selected}
+        onPress={() => router.push('/onboarding/experience')}
+      >
+        <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
+          {t('onboarding.goal.next')}
+        </Typography>
+      </TouchableOpacity>
+      <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+  },
+  headline: {
+    marginBottom: 32,
+  },
+  cardsContainer: {
+    width: '100%',
+    marginBottom: 40,
+    gap: 16,
+  },
+  card: {
+    borderWidth: 2,
+    borderColor: '#D1D1D6',
+    borderRadius: 16,
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  icon: {
+    width: 40,
+    height: 40,
+    marginBottom: 12,
+  },
+  cardLabel: {
+    marginBottom: 4,
+  },
+  button: {
+    width: '100%',
+    borderRadius: 12,
+    paddingVertical: 16,
+    marginBottom: 48,
+  },
+  buttonText: {
+    color: '#fff',
+  },
+  dotsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#D1D1D6',
+    marginHorizontal: 4,
+  },
+});
