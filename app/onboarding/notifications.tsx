@@ -5,6 +5,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
 import { Button } from '../components/Button';
+import { ProgressDots } from '../components/ProgressDots';
 import { onboardingRoutes } from './onboardingRoutes';
 import { useOnboardingNavigation } from './useOnboardingNavigation';
 import { useOnboardingState } from './useOnboardingState';
@@ -15,20 +16,6 @@ const CURRENT_STEP = 6;
 
 // Placeholder illustration (replace with real asset as needed)
 const BELL_ICON = require('../../assets/images/react-logo.png');
-
-function ProgressDots({ total, current }: { total: number; current: number }) {
-  const theme = useTheme();
-  return (
-    <View style={styles.dotsContainer}>
-      {Array.from({ length: total }).map((_, i) => (
-        <View
-          key={i}
-          style={[styles.dot, i + 1 === current && { backgroundColor: theme.colors.accentPrimary }]}
-        />
-      ))}
-    </View>
-  );
-}
 
 export default function NotificationsScreen() {
   const theme = useTheme();

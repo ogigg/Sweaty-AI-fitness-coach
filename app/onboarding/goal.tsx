@@ -5,6 +5,7 @@ import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-nat
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
 import { Button } from '../components/Button';
+import { ProgressDots } from '../components/ProgressDots';
 import { onboardingRoutes } from './onboardingRoutes';
 import { useOnboardingNavigation } from './useOnboardingNavigation';
 import { useOnboardingState } from './useOnboardingState';
@@ -39,20 +40,6 @@ const GOALS = [
     icon: icons.fitness,
   },
 ];
-
-function ProgressDots({ total, current }: { total: number; current: number }) {
-  const theme = useTheme();
-  return (
-    <View style={styles.dotsContainer}>
-      {Array.from({ length: total }).map((_, i) => (
-        <View
-          key={i}
-          style={[styles.dot, i + 1 === current && { backgroundColor: theme.colors.accentPrimary }]}
-        />
-      ))}
-    </View>
-  );
-}
 
 export default function GoalScreen() {
   const theme = useTheme();

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   AccessibilityRole,
+  Animated,
   StyleProp,
   StyleSheet,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   ViewStyle,
 } from 'react-native';
 import { Typography } from '../../components/Typography';
@@ -38,6 +39,25 @@ export const Button: React.FC<ButtonProps> = ({
   accessibilityState,
 }) => {
   const theme = useTheme();
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    Animated.spring(scale, {
+      toValue: 0.96,
+      useNativeDriver: true,
+      speed: 40,
+      bounciness: 0,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scale, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 40,
+      bounciness: 0,
+    }).start();
+  };
 
   const baseStyle = [
     styles.base,
@@ -55,20 +75,22 @@ export const Button: React.FC<ButtonProps> = ({
         : theme.colors.textPrimary;
 
   return (
-    <TouchableOpacity
-      style={baseStyle}
-      onPress={onPress}
-      activeOpacity={disabled ? 1 : 0.85}
+    <TouchableWithoutFeedback
+      onPress={disabled ? undefined : onPress}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
       disabled={disabled}
       accessibilityLabel={accessibilityLabel}
       accessibilityRole={accessibilityRole}
       accessible={accessible}
       accessibilityState={{ disabled, ...accessibilityState }}
     >
-      <Typography variant='button' align='center' style={{ color: textColor }}>
-        {children}
-      </Typography>
-    </TouchableOpacity>
+      <Animated.View style={[baseStyle, { transform: [{ scale }] }]}>
+        <Typography variant='button' align='center' style={{ color: textColor }}>
+          {children}
+        </Typography>
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 };
 

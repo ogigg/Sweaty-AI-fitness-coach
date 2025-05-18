@@ -5,26 +5,13 @@ import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
 import { Button } from '../components/Button';
+import { ProgressDots } from '../components/ProgressDots';
 import { onboardingRoutes } from './onboardingRoutes';
 import { useOnboardingNavigation } from './useOnboardingNavigation';
 import { useOnboardingState } from './useOnboardingState';
 
 const TOTAL_STEPS = 7;
 const CURRENT_STEP = 5;
-
-function ProgressDots({ total, current }: { total: number; current: number }) {
-  const theme = useTheme();
-  return (
-    <View style={styles.dotsContainer}>
-      {Array.from({ length: total }).map((_, i) => (
-        <View
-          key={i}
-          style={[styles.dot, i + 1 === current && { backgroundColor: theme.colors.accentPrimary }]}
-        />
-      ))}
-    </View>
-  );
-}
 
 export default function BasicInfoScreen() {
   const theme = useTheme();
@@ -296,17 +283,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 12,
     marginBottom: 48,
-  },
-  dotsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 8,
-  },
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#D1D1D6',
-    marginHorizontal: 4,
   },
 });
