@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { onboardingRoutes } from './onboardingRoutes';
 
 const LOGO = require('../../assets/images/react-logo.png'); // Placeholder logo
 
@@ -29,7 +30,14 @@ export default function WelcomeScreen() {
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.backgroundPrimary }]}>
       <View style={styles.logoContainer}>
-        <Image source={LOGO} style={styles.logo} resizeMode='contain' />
+        <Image
+          source={LOGO}
+          style={styles.logo}
+          resizeMode='contain'
+          accessibilityLabel={t('onboarding.welcome.headline')}
+          accessible
+          accessibilityRole='image'
+        />
       </View>
       <Typography variant='h1' align='center' style={styles.headline}>
         {t('onboarding.welcome.headline')}
@@ -40,7 +48,10 @@ export default function WelcomeScreen() {
       <TouchableOpacity
         style={[styles.button, { backgroundColor: theme.colors.accentPrimary }]}
         activeOpacity={0.85}
-        onPress={() => router.push('/onboarding/goal')}
+        onPress={() => router.push(`/onboarding/${onboardingRoutes.goal}`)}
+        accessibilityLabel={t('onboarding.welcome.getStarted')}
+        accessibilityRole='button'
+        accessible
       >
         <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
           {t('onboarding.welcome.getStarted')}

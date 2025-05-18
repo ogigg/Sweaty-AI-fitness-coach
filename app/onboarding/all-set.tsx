@@ -1,8 +1,11 @@
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { onboardingRoutes } from './onboardingRoutes';
+import { useOnboardingState } from './useOnboardingState';
 
 const TOTAL_STEPS = 7;
 const CURRENT_STEP = 7;
@@ -27,10 +30,25 @@ function ProgressDots({ total, current }: { total: number; current: number }) {
 export default function AllSetScreen() {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { onboardingState, setOnboardingState, loading } = useOnboardingState();
+
+  useEffect(() => {
+    if (loading) return;
+    if (onboardingState.onboardingComplete) {
+      router.replace('/');
+      return;
+    }
+    if (onboardingState.currentStep < 7) {
+      router.replace(`/onboarding/${onboardingRoutes.notifications}`);
+    }
+  }, [loading, onboardingState]);
+
   const handleGoToPlan = () => {
-    // Replace with your main dashboard/home route
+    setOnboardingState({ onboardingComplete: true });
     router.replace('/');
   };
+
+  if (loading) return null;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.backgroundPrimary }]}>
@@ -38,7 +56,14 @@ export default function AllSetScreen() {
         {t('onboarding.allSet.headline')}
       </Typography>
       <View style={styles.illustrationContainer}>
-        <Image source={CELEBRATE_ICON} style={styles.illustration} resizeMode='contain' />
+        <Image
+          source={CELEBRATE_ICON}
+          style={styles.illustration}
+          resizeMode='contain'
+          accessibilityLabel={t('onboarding.allSet.headline')}
+          accessible
+          accessibilityRole='image'
+        />
       </View>
       <Typography variant='bodyLarge' color='secondary' align='center' style={styles.subtext}>
         {t('onboarding.allSet.subtext')}
@@ -47,6 +72,9 @@ export default function AllSetScreen() {
         style={[styles.button, { backgroundColor: theme.colors.accentPrimary }]}
         activeOpacity={0.85}
         onPress={handleGoToPlan}
+        accessibilityLabel={t('onboarding.allSet.cta')}
+        accessibilityRole='button'
+        accessible
       >
         <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
           {t('onboarding.allSet.cta')}

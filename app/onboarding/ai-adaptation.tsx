@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { onboardingRoutes } from './onboardingRoutes';
+import { useOnboardingNavigation } from './useOnboardingNavigation';
+import { useOnboardingState } from './useOnboardingState';
 
 const TOTAL_STEPS = 7;
 const CURRENT_STEP = 4;
@@ -31,13 +34,34 @@ export default function AiAdaptationScreen() {
     returnObjects: true,
     appName: 'Sweaty',
   }) as string[];
+  const { onboardingState, setOnboardingState } = useOnboardingState();
+  const { loading } = useOnboardingNavigation({
+    currentStep: CURRENT_STEP,
+    nextRoute: 'basicInfo',
+    prevRoute: 'experience',
+  });
+
+  const handleNext = () => {
+    setOnboardingState({ currentStep: 5 });
+    router.push(`/onboarding/${onboardingRoutes.basicInfo}`);
+  };
+
+  if (loading) return null;
+
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.backgroundPrimary }]}>
       <Typography variant='h2' align='center' style={styles.headline}>
         {t('onboarding.aiAdaptation.headline', { appName: 'Sweaty' })}
       </Typography>
       <View style={styles.illustrationContainer}>
-        <Image source={CYCLE_ICON} style={styles.illustration} resizeMode='contain' />
+        <Image
+          source={CYCLE_ICON}
+          style={styles.illustration}
+          resizeMode='contain'
+          accessibilityLabel={t('onboarding.aiAdaptation.headline', { appName: 'Sweaty' })}
+          accessible
+          accessibilityRole='image'
+        />
       </View>
       <View style={styles.bulletsContainer}>
         {bullets.map((text, idx) => (
@@ -52,7 +76,10 @@ export default function AiAdaptationScreen() {
       <TouchableOpacity
         style={[styles.button, { backgroundColor: theme.colors.accentPrimary }]}
         activeOpacity={0.85}
-        onPress={() => router.push('/onboarding/basic-info')}
+        onPress={handleNext}
+        accessibilityLabel={t('onboarding.aiAdaptation.gotIt')}
+        accessibilityRole='button'
+        accessible
       >
         <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
           {t('onboarding.aiAdaptation.gotIt')}

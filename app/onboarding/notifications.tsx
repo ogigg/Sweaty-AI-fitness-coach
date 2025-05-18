@@ -1,9 +1,12 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { onboardingRoutes } from './onboardingRoutes';
+import { useOnboardingNavigation } from './useOnboardingNavigation';
+import { useOnboardingState } from './useOnboardingState';
 // import * as Notifications from 'expo-notifications'; // Uncomment if using Expo Notifications
 
 const TOTAL_STEPS = 7;
@@ -30,21 +33,42 @@ export default function NotificationsScreen() {
   const theme = useTheme();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const { onboardingState, setOnboardingState } = useOnboardingState();
+  const { loading: navigationLoading } = useOnboardingNavigation({
+    currentStep: CURRENT_STEP,
+    nextRoute: 'allSet',
+    prevRoute: 'basicInfo',
+  });
+
+  useEffect(() => {
+    if (navigationLoading) return;
+    if (onboardingState.onboardingComplete) {
+      router.replace('/');
+      return;
+    }
+    if (onboardingState.currentStep < 6) {
+      router.replace(`/onboarding/${onboardingRoutes.basicInfo}`);
+    } else if (onboardingState.currentStep > 6) {
+      router.replace(`/onboarding/${onboardingRoutes.allSet}`);
+    }
+  }, [navigationLoading, onboardingState]);
 
   // Placeholder for notification permission logic
   const handleEnableNotifications = async () => {
     setLoading(true);
-    // Uncomment and use real permission logic if using Expo Notifications
-    // const { status } = await Notifications.requestPermissionsAsync();
     setTimeout(() => {
       setLoading(false);
-      router.push('/onboarding/all-set');
+      setOnboardingState({ currentStep: 7 });
+      router.push(`/onboarding/${onboardingRoutes.allSet}`);
     }, 800);
   };
 
   const handleMaybeLater = () => {
-    router.push('/onboarding/all-set');
+    setOnboardingState({ currentStep: 7 });
+    router.push(`/onboarding/${onboardingRoutes.allSet}`);
   };
+
+  if (navigationLoading) return null;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.backgroundPrimary }]}>
@@ -52,7 +76,14 @@ export default function NotificationsScreen() {
         {t('onboarding.notifications.headline')}
       </Typography>
       <View style={styles.illustrationContainer}>
-        <Image source={BELL_ICON} style={styles.illustration} resizeMode='contain' />
+        <Image
+          source={BELL_ICON}
+          style={styles.illustration}
+          resizeMode='contain'
+          accessibilityLabel={t('onboarding.notifications.headline')}
+          accessible
+          accessibilityRole='image'
+        />
       </View>
       <Typography variant='bodyLarge' color='secondary' align='center' style={styles.subtext}>
         {t('onboarding.notifications.subtext')}
@@ -65,12 +96,24 @@ export default function NotificationsScreen() {
         activeOpacity={0.85}
         onPress={handleEnableNotifications}
         disabled={loading}
+        accessibilityLabel={t('onboarding.notifications.enable')}
+        accessibilityRole='button'
+        accessible
+        accessibilityState={{ disabled: loading }}
       >
         <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
           {t('onboarding.notifications.enable')}
         </Typography>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.linkButton} onPress={handleMaybeLater} disabled={loading}>
+      <TouchableOpacity
+        style={styles.linkButton}
+        onPress={handleMaybeLater}
+        disabled={loading}
+        accessibilityLabel={t('onboarding.notifications.maybeLater')}
+        accessibilityRole='button'
+        accessible
+        accessibilityState={{ disabled: loading }}
+      >
         <Typography
           variant='button'
           align='center'

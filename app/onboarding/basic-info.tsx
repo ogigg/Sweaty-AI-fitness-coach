@@ -1,9 +1,12 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { onboardingRoutes } from './onboardingRoutes';
+import { useOnboardingNavigation } from './useOnboardingNavigation';
+import { useOnboardingState } from './useOnboardingState';
 
 const TOTAL_STEPS = 7;
 const CURRENT_STEP = 5;
@@ -30,8 +33,37 @@ export default function BasicInfoScreen() {
   const [weightUnit, setWeightUnit] = useState<'kg' | 'lbs'>('kg');
   const [height, setHeight] = useState('');
   const [heightUnit, setHeightUnit] = useState<'cm' | 'ft'>('cm');
+  const { onboardingState, setOnboardingState } = useOnboardingState();
+  const { loading } = useOnboardingNavigation({
+    currentStep: CURRENT_STEP,
+    nextRoute: 'notifications',
+    prevRoute: 'aiAdaptation',
+  });
+
+  useEffect(() => {
+    if (onboardingState.age) setAge(onboardingState.age);
+    if (onboardingState.weight) setWeight(onboardingState.weight);
+    if (onboardingState.height) setHeight(onboardingState.height);
+  }, [onboardingState]);
 
   const anyFilled = age || weight || height;
+
+  const handleSave = () => {
+    setOnboardingState({
+      currentStep: 6,
+      age,
+      weight,
+      height,
+    });
+    router.push(`/onboarding/${onboardingRoutes.notifications}`);
+  };
+
+  const handleSkip = () => {
+    setOnboardingState({ currentStep: 6 });
+    router.push(`/onboarding/${onboardingRoutes.notifications}`);
+  };
+
+  if (loading) return null;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.backgroundPrimary }]}>
@@ -57,6 +89,8 @@ export default function BasicInfoScreen() {
             value={age}
             onChangeText={setAge}
             maxLength={3}
+            accessibilityLabel={t('onboarding.basicInfo.age')}
+            accessible
           />
         </View>
         <View style={styles.inputRow}>
@@ -79,6 +113,8 @@ export default function BasicInfoScreen() {
               value={weight}
               onChangeText={setWeight}
               maxLength={3}
+              accessibilityLabel={t('onboarding.basicInfo.weight')}
+              accessible
             />
             <TouchableOpacity
               style={[
@@ -86,6 +122,10 @@ export default function BasicInfoScreen() {
                 weightUnit === 'kg' && { backgroundColor: theme.colors.accentPrimary },
               ]}
               onPress={() => setWeightUnit('kg')}
+              accessibilityLabel={t('common.units.kg')}
+              accessibilityRole='button'
+              accessible
+              accessibilityState={{ selected: weightUnit === 'kg' }}
             >
               <Typography
                 variant='caption'
@@ -100,6 +140,10 @@ export default function BasicInfoScreen() {
                 weightUnit === 'lbs' && { backgroundColor: theme.colors.accentPrimary },
               ]}
               onPress={() => setWeightUnit('lbs')}
+              accessibilityLabel={t('common.units.lbs')}
+              accessibilityRole='button'
+              accessible
+              accessibilityState={{ selected: weightUnit === 'lbs' }}
             >
               <Typography
                 variant='caption'
@@ -130,6 +174,8 @@ export default function BasicInfoScreen() {
               value={height}
               onChangeText={setHeight}
               maxLength={3}
+              accessibilityLabel={t('onboarding.basicInfo.height')}
+              accessible
             />
             <TouchableOpacity
               style={[
@@ -137,6 +183,10 @@ export default function BasicInfoScreen() {
                 heightUnit === 'cm' && { backgroundColor: theme.colors.accentPrimary },
               ]}
               onPress={() => setHeightUnit('cm')}
+              accessibilityLabel={t('common.units.cm')}
+              accessibilityRole='button'
+              accessible
+              accessibilityState={{ selected: heightUnit === 'cm' }}
             >
               <Typography
                 variant='caption'
@@ -151,6 +201,10 @@ export default function BasicInfoScreen() {
                 heightUnit === 'ft' && { backgroundColor: theme.colors.accentPrimary },
               ]}
               onPress={() => setHeightUnit('ft')}
+              accessibilityLabel={t('common.units.ft')}
+              accessibilityRole='button'
+              accessible
+              accessibilityState={{ selected: heightUnit === 'ft' }}
             >
               <Typography
                 variant='caption'
@@ -165,7 +219,10 @@ export default function BasicInfoScreen() {
       <View style={styles.buttonRow}>
         <TouchableOpacity
           style={[styles.skipButton, { borderColor: theme.colors.accentPrimary }]}
-          onPress={() => router.push('/onboarding/notifications')}
+          onPress={handleSkip}
+          accessibilityLabel={t('onboarding.basicInfo.skip')}
+          accessibilityRole='button'
+          accessible
         >
           <Typography
             variant='button'
@@ -184,7 +241,11 @@ export default function BasicInfoScreen() {
           ]}
           activeOpacity={anyFilled ? 0.85 : 1}
           disabled={!anyFilled}
-          onPress={() => router.push('/onboarding/notifications')}
+          onPress={handleSave}
+          accessibilityLabel={t('onboarding.basicInfo.save')}
+          accessibilityRole='button'
+          accessible
+          accessibilityState={{ disabled: !anyFilled }}
         >
           <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
             {t('onboarding.basicInfo.save')}

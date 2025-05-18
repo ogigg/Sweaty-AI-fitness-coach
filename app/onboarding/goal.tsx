@@ -1,9 +1,12 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { onboardingRoutes } from './onboardingRoutes';
+import { useOnboardingNavigation } from './useOnboardingNavigation';
+import { useOnboardingState } from './useOnboardingState';
 
 const TOTAL_STEPS = 7;
 const CURRENT_STEP = 2;
@@ -54,6 +57,32 @@ export default function GoalScreen() {
   const theme = useTheme();
   const { t } = useTranslation();
   const [selected, setSelected] = useState<string | null>(null);
+  const { onboardingState, setOnboardingState } = useOnboardingState();
+  const { loading } = useOnboardingNavigation({
+    currentStep: CURRENT_STEP,
+    nextRoute: 'experience',
+    prevRoute: 'welcome',
+  });
+
+  useEffect(() => {
+    if (onboardingState.selectedGoal) {
+      setSelected(onboardingState.selectedGoal);
+    }
+  }, [onboardingState]);
+
+  const handleSelect = (goalKey: string) => {
+    setSelected(goalKey);
+    setOnboardingState({ selectedGoal: goalKey });
+  };
+
+  const handleNext = () => {
+    if (selected) {
+      setOnboardingState({ currentStep: 3, selectedGoal: selected });
+      router.push(`/onboarding/${onboardingRoutes.experience}`);
+    }
+  };
+
+  if (loading) return null;
 
   return (
     <ScrollView
@@ -79,9 +108,19 @@ export default function GoalScreen() {
               },
             ]}
             activeOpacity={0.85}
-            onPress={() => setSelected(goal.key)}
+            onPress={() => handleSelect(goal.key)}
+            accessibilityLabel={t(`onboarding.goal.goals.${goal.key}.label`)}
+            accessibilityRole='button'
+            accessible
+            accessibilityState={{ selected: selected === goal.key }}
           >
-            <Image source={goal.icon} style={styles.icon} />
+            <Image
+              source={goal.icon}
+              style={styles.icon}
+              accessibilityLabel={t(`onboarding.goal.goals.${goal.key}.label`)}
+              accessible
+              accessibilityRole='image'
+            />
             <Typography variant='h3' align='center' style={styles.cardLabel}>
               {t(`onboarding.goal.goals.${goal.key}.label`)}
             </Typography>
@@ -98,7 +137,11 @@ export default function GoalScreen() {
         ]}
         activeOpacity={selected ? 0.85 : 1}
         disabled={!selected}
-        onPress={() => router.push('/onboarding/experience')}
+        onPress={handleNext}
+        accessibilityLabel={t('onboarding.goal.next')}
+        accessibilityRole='button'
+        accessible
+        accessibilityState={{ disabled: !selected }}
       >
         <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
           {t('onboarding.goal.next')}

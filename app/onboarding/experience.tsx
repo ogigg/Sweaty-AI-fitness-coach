@@ -1,9 +1,12 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { onboardingRoutes } from './onboardingRoutes';
+import { useOnboardingNavigation } from './useOnboardingNavigation';
+import { useOnboardingState } from './useOnboardingState';
 
 const TOTAL_STEPS = 7;
 const CURRENT_STEP = 3;
@@ -27,6 +30,32 @@ export default function ExperienceScreen() {
   const theme = useTheme();
   const { t } = useTranslation();
   const [selectedDays, setSelectedDays] = useState<number | null>(null);
+  const { onboardingState, setOnboardingState } = useOnboardingState();
+  const { loading } = useOnboardingNavigation({
+    currentStep: CURRENT_STEP,
+    nextRoute: 'aiAdaptation',
+    prevRoute: 'goal',
+  });
+
+  useEffect(() => {
+    if (onboardingState.frequency) {
+      setSelectedDays(onboardingState.frequency);
+    }
+  }, [onboardingState]);
+
+  const handleSelect = (days: number) => {
+    setSelectedDays(days);
+    setOnboardingState({ frequency: days });
+  };
+
+  const handleNext = () => {
+    if (selectedDays) {
+      setOnboardingState({ currentStep: 4, frequency: selectedDays });
+      router.push(`/onboarding/${onboardingRoutes.aiAdaptation}`);
+    }
+  };
+
+  if (loading) return null;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.backgroundPrimary }]}>
@@ -64,8 +93,12 @@ export default function ExperienceScreen() {
                 styles.dayButton,
                 selectedDays === day && { backgroundColor: theme.colors.accentPrimary },
               ]}
-              onPress={() => setSelectedDays(day)}
+              onPress={() => handleSelect(day)}
               activeOpacity={0.85}
+              accessibilityLabel={t('onboarding.experience.frequencyQuestion') + ' ' + day}
+              accessibilityRole='button'
+              accessible
+              accessibilityState={{ selected: selectedDays === day }}
             >
               <Typography
                 variant='h3'
@@ -87,7 +120,11 @@ export default function ExperienceScreen() {
         ]}
         activeOpacity={selectedDays ? 0.85 : 1}
         disabled={!selectedDays}
-        onPress={() => router.push('/onboarding/ai-adaptation')}
+        onPress={handleNext}
+        accessibilityLabel={t('onboarding.experience.next')}
+        accessibilityRole='button'
+        accessible
+        accessibilityState={{ disabled: !selectedDays }}
       >
         <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
           {t('onboarding.experience.next')}
