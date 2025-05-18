@@ -1,0 +1,74 @@
+{
+  "onboarding": {
+    "welcome": {
+      "headline": "Start Your Fitness Journey, Smarter",
+      "description": "Your personalized AI coach adapts to your progress, helping you build strength and confidence in the gym, safely and effectively.",
+      "getStarted": "Get Started",
+      "skip": "Skip onboarding"
+    },
+    "goal": {
+      "headline": "What's your main fitness goal?",
+      "goals": {
+        "buildMuscle": {
+          "label": "Build Muscle",
+          "description": "Gain strength and muscle mass"
+        },
+        "loseWeight": {
+          "label": "Lose Weight",
+          "description": "Burn fat and slim down"
+        },
+        "generalFitness": {
+          "label": "General Fitness",
+          "description": "Improve overall health and energy"
+        }
+      },
+      "next": "Next"
+    },
+    "experience": {
+      "headline": "Let's personalize your plan",
+      "experienceQuestion": "Are you new to gym training?",
+      "beginnerOption": "Yes, I'm a beginner",
+      "frequencyQuestion": "How many days per week do you want to train?",
+      "next": "Next"
+    },
+    "aiAdaptation": {
+      "headline": "How {{appName}} Adapts To You",
+      "bullets": [
+        "Complete your workout",
+        "Give quick feedback (\"Too Easy\" / \"Too Hard\")",
+        "Your next plan adapts automatically",
+        "Progress, your way!"
+      ],
+      "gotIt": "Got It!"
+    },
+    "basicInfo": {
+      "headline": "Optional: Help us personalize your plan",
+      "subtext": "This info helps us estimate calories and tailor your workouts. You can skip this step.",
+      "age": "Age",
+      "weight": "Weight",
+      "height": "Height",
+      "skip": "Skip for Now",
+      "save": "Save & Continue"
+    },
+    "notifications": {
+      "headline": "Stay on Track!",
+      "subtext": "Enable reminders so you never miss a workout. We'll only send helpful notifications.",
+      "enable": "Enable Notifications",
+      "maybeLater": "Maybe Later"
+    },
+    "allSet": {
+      "headline": "You're All Set!",
+      "subtext": "Your personalized journey starts now. Let's crush your first workout together!",
+      "cta": "Go To My Plan"
+    }
+  },
+  "common": {
+    "units": {
+      "kg": "kg",
+      "lbs": "lbs",
+      "cm": "cm",
+      "ft": "ft"
+    },
+    "back": "Back"
+  }
+}

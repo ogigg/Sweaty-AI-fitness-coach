@@ -18,7 +18,8 @@ export default [
     'airbnb',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'prettier'
+    'prettier',
+    'plugin:react/jsx-runtime'
   ),
   {
     languageOptions: {
@@ -28,10 +29,6 @@ export default [
 
       ecmaVersion: 5,
       sourceType: 'script',
-
-      parserOptions: {
-        project: 'tsconfig.json',
-      },
     },
     plugins: {
       prettier: prettier,
