@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { Button } from '../components/Button';
 import { onboardingRoutes } from './onboardingRoutes';
 import { useOnboardingNavigation } from './useOnboardingNavigation';
 import { useOnboardingState } from './useOnboardingState';
@@ -130,23 +131,16 @@ export default function GoalScreen() {
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity
-        style={[
-          styles.button,
-          { backgroundColor: selected ? theme.colors.accentPrimary : theme.colors.borderDefault },
-        ]}
-        activeOpacity={selected ? 0.85 : 1}
-        disabled={!selected}
+      <Button
         onPress={handleNext}
+        variant='primary'
+        size='large'
+        disabled={!selected}
         accessibilityLabel={t('onboarding.goal.next')}
-        accessibilityRole='button'
-        accessible
         accessibilityState={{ disabled: !selected }}
       >
-        <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
-          {t('onboarding.goal.next')}
-        </Typography>
-      </TouchableOpacity>
+        {t('onboarding.goal.next')}
+      </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </ScrollView>
   );
@@ -183,15 +177,6 @@ const styles = StyleSheet.create({
   },
   cardLabel: {
     marginBottom: 4,
-  },
-  button: {
-    width: '100%',
-    borderRadius: 12,
-    paddingVertical: 16,
-    marginBottom: 48,
-  },
-  buttonText: {
-    color: '#fff',
   },
   dotsContainer: {
     flexDirection: 'row',

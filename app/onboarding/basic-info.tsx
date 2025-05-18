@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { Button } from '../components/Button';
 import { onboardingRoutes } from './onboardingRoutes';
 import { useOnboardingNavigation } from './useOnboardingNavigation';
 import { useOnboardingState } from './useOnboardingState';
@@ -217,40 +218,24 @@ export default function BasicInfoScreen() {
         </View>
       </View>
       <View style={styles.buttonRow}>
-        <TouchableOpacity
-          style={[styles.skipButton, { borderColor: theme.colors.accentPrimary }]}
+        <Button
           onPress={handleSkip}
+          variant='outline'
+          size='large'
           accessibilityLabel={t('onboarding.basicInfo.skip')}
-          accessibilityRole='button'
-          accessible
         >
-          <Typography
-            variant='button'
-            align='center'
-            style={{ ...styles.skipButtonText, color: theme.colors.accentPrimary }}
-          >
-            {t('onboarding.basicInfo.skip')}
-          </Typography>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.button,
-            {
-              backgroundColor: anyFilled ? theme.colors.accentPrimary : theme.colors.borderDefault,
-            },
-          ]}
-          activeOpacity={anyFilled ? 0.85 : 1}
-          disabled={!anyFilled}
+          {t('onboarding.basicInfo.skip')}
+        </Button>
+        <Button
           onPress={handleSave}
+          variant='primary'
+          size='large'
+          disabled={!anyFilled}
           accessibilityLabel={t('onboarding.basicInfo.save')}
-          accessibilityRole='button'
-          accessible
           accessibilityState={{ disabled: !anyFilled }}
         >
-          <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
-            {t('onboarding.basicInfo.save')}
-          </Typography>
-        </TouchableOpacity>
+          {t('onboarding.basicInfo.save')}
+        </Button>
       </View>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>
@@ -311,26 +296,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 12,
     marginBottom: 48,
-  },
-  skipButton: {
-    flex: 1,
-    borderWidth: 2,
-    borderRadius: 12,
-    paddingVertical: 16,
-    marginRight: 8,
-    backgroundColor: 'transparent',
-  },
-  skipButtonText: {
-    color: '#3B9BFF',
-  },
-  button: {
-    flex: 2,
-    borderRadius: 12,
-    paddingVertical: 16,
-    backgroundColor: '#3B9BFF',
-  },
-  buttonText: {
-    color: '#fff',
   },
   dotsContainer: {
     flexDirection: 'row',

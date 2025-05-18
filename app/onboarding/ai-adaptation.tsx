@@ -1,8 +1,9 @@
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { Button } from '../components/Button';
 import { onboardingRoutes } from './onboardingRoutes';
 import { useOnboardingNavigation } from './useOnboardingNavigation';
 import { useOnboardingState } from './useOnboardingState';
@@ -73,18 +74,14 @@ export default function AiAdaptationScreen() {
           </View>
         ))}
       </View>
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: theme.colors.accentPrimary }]}
-        activeOpacity={0.85}
+      <Button
         onPress={handleNext}
+        variant='primary'
+        size='large'
         accessibilityLabel={t('onboarding.aiAdaptation.gotIt')}
-        accessibilityRole='button'
-        accessible
       >
-        <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
-          {t('onboarding.aiAdaptation.gotIt')}
-        </Typography>
-      </TouchableOpacity>
+        {t('onboarding.aiAdaptation.gotIt')}
+      </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>
   );
@@ -126,15 +123,6 @@ const styles = StyleSheet.create({
   },
   bulletText: {
     flex: 1,
-  },
-  button: {
-    width: '100%',
-    borderRadius: 12,
-    paddingVertical: 16,
-    marginBottom: 48,
-  },
-  buttonText: {
-    color: '#fff',
   },
   dotsContainer: {
     flexDirection: 'row',

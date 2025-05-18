@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { Button } from '../components/Button';
 import { onboardingRoutes } from './onboardingRoutes';
 import { useOnboardingNavigation } from './useOnboardingNavigation';
 import { useOnboardingState } from './useOnboardingState';
@@ -111,25 +112,16 @@ export default function ExperienceScreen() {
           ))}
         </View>
       </View>
-      <TouchableOpacity
-        style={[
-          styles.button,
-          {
-            backgroundColor: selectedDays ? theme.colors.accentPrimary : theme.colors.borderDefault,
-          },
-        ]}
-        activeOpacity={selectedDays ? 0.85 : 1}
-        disabled={!selectedDays}
+      <Button
         onPress={handleNext}
+        variant='primary'
+        size='large'
+        disabled={!selectedDays}
         accessibilityLabel={t('onboarding.experience.next')}
-        accessibilityRole='button'
-        accessible
         accessibilityState={{ disabled: !selectedDays }}
       >
-        <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
-          {t('onboarding.experience.next')}
-        </Typography>
-      </TouchableOpacity>
+        {t('onboarding.experience.next')}
+      </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>
   );
@@ -178,15 +170,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     alignItems: 'center',
     minWidth: 56,
-  },
-  button: {
-    width: '100%',
-    borderRadius: 12,
-    paddingVertical: 16,
-    marginBottom: 48,
-  },
-  buttonText: {
-    color: '#fff',
   },
   dotsContainer: {
     flexDirection: 'row',

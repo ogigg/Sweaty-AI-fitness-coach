@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { Button } from '../components/Button';
 import { onboardingRoutes } from './onboardingRoutes';
 import { useOnboardingNavigation } from './useOnboardingNavigation';
 import { useOnboardingState } from './useOnboardingState';
@@ -88,40 +89,27 @@ export default function NotificationsScreen() {
       <Typography variant='bodyLarge' color='secondary' align='center' style={styles.subtext}>
         {t('onboarding.notifications.subtext')}
       </Typography>
-      <TouchableOpacity
-        style={[
-          styles.button,
-          { backgroundColor: theme.colors.accentPrimary, opacity: loading ? 0.7 : 1 },
-        ]}
-        activeOpacity={0.85}
+      <Button
         onPress={handleEnableNotifications}
+        variant='primary'
+        size='large'
         disabled={loading}
         accessibilityLabel={t('onboarding.notifications.enable')}
-        accessibilityRole='button'
-        accessible
         accessibilityState={{ disabled: loading }}
       >
-        <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
-          {t('onboarding.notifications.enable')}
-        </Typography>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.linkButton}
+        {t('onboarding.notifications.enable')}
+      </Button>
+      <Button
         onPress={handleMaybeLater}
+        variant='ghost'
+        size='large'
         disabled={loading}
         accessibilityLabel={t('onboarding.notifications.maybeLater')}
-        accessibilityRole='button'
-        accessible
         accessibilityState={{ disabled: loading }}
+        style={{ marginBottom: 48 }}
       >
-        <Typography
-          variant='button'
-          align='center'
-          style={{ ...styles.linkText, color: theme.colors.accentPrimary }}
-        >
-          {t('onboarding.notifications.maybeLater')}
-        </Typography>
-      </TouchableOpacity>
+        {t('onboarding.notifications.maybeLater')}
+      </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>
   );
@@ -148,21 +136,6 @@ const styles = StyleSheet.create({
   subtext: {
     marginBottom: 32,
     maxWidth: 320,
-  },
-  button: {
-    width: '100%',
-    borderRadius: 12,
-    paddingVertical: 16,
-    marginBottom: 12,
-  },
-  buttonText: {
-    color: '#fff',
-  },
-  linkButton: {
-    marginBottom: 48,
-  },
-  linkText: {
-    textDecorationLine: 'underline',
   },
   dotsContainer: {
     flexDirection: 'row',
