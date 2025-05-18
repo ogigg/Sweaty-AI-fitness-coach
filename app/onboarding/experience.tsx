@@ -106,8 +106,18 @@ export default function ExperienceScreen() {
         disabled={!selectedDays}
         accessibilityLabel={t('onboarding.experience.next')}
         accessibilityState={{ disabled: !selectedDays }}
+        style={{ marginBottom: 8 }}
       >
         {t('onboarding.experience.next')}
+      </Button>
+      <Button
+        onPress={() => router.back()}
+        variant='ghost'
+        size='small'
+        accessibilityLabel={t('common.back')}
+        style={{ marginBottom: 24 }}
+      >
+        {t('common.back')}
       </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>

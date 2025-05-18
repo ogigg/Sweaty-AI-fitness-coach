@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { Button } from '../components/Button';
 import { onboardingRoutes } from './onboardingRoutes';
+import { useOnboardingState } from './useOnboardingState';
 
 const LOGO = require('../../assets/images/react-logo.png'); // Placeholder logo
 
@@ -27,6 +29,11 @@ function ProgressDots({ total, current }: { total: number; current: number }) {
 export default function WelcomeScreen() {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { setOnboardingState } = useOnboardingState();
+  const handleSkip = () => {
+    setOnboardingState({ onboardingComplete: true });
+    router.replace('/');
+  };
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.backgroundPrimary }]}>
       <View style={styles.logoContainer}>
@@ -57,6 +64,15 @@ export default function WelcomeScreen() {
           {t('onboarding.welcome.getStarted')}
         </Typography>
       </TouchableOpacity>
+      <Button
+        onPress={handleSkip}
+        variant='ghost'
+        size='large'
+        accessibilityLabel={t('onboarding.welcome.skip')}
+        style={{ marginBottom: 32 }}
+      >
+        {t('onboarding.welcome.skip')}
+      </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>
   );

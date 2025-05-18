@@ -125,8 +125,18 @@ export default function GoalScreen() {
         disabled={!selected}
         accessibilityLabel={t('onboarding.goal.next')}
         accessibilityState={{ disabled: !selected }}
+        style={{ marginBottom: 8 }}
       >
         {t('onboarding.goal.next')}
+      </Button>
+      <Button
+        onPress={() => router.back()}
+        variant='ghost'
+        size='small'
+        accessibilityLabel={t('common.back')}
+        style={{ marginBottom: 24 }}
+      >
+        {t('common.back')}
       </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </ScrollView>

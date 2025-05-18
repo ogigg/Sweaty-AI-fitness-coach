@@ -66,8 +66,18 @@ export default function AiAdaptationScreen() {
         variant='primary'
         size='large'
         accessibilityLabel={t('onboarding.aiAdaptation.gotIt')}
+        style={{ marginBottom: 8 }}
       >
         {t('onboarding.aiAdaptation.gotIt')}
+      </Button>
+      <Button
+        onPress={() => router.back()}
+        variant='ghost'
+        size='small'
+        accessibilityLabel={t('common.back')}
+        style={{ marginBottom: 24 }}
+      >
+        {t('common.back')}
       </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>

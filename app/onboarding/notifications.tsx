@@ -83,6 +83,7 @@ export default function NotificationsScreen() {
         disabled={loading}
         accessibilityLabel={t('onboarding.notifications.enable')}
         accessibilityState={{ disabled: loading }}
+        style={{ marginBottom: 8 }}
       >
         {t('onboarding.notifications.enable')}
       </Button>
@@ -93,9 +94,18 @@ export default function NotificationsScreen() {
         disabled={loading}
         accessibilityLabel={t('onboarding.notifications.maybeLater')}
         accessibilityState={{ disabled: loading }}
-        style={{ marginBottom: 48 }}
+        style={{ marginBottom: 8 }}
       >
         {t('onboarding.notifications.maybeLater')}
+      </Button>
+      <Button
+        onPress={() => router.back()}
+        variant='ghost'
+        size='small'
+        accessibilityLabel={t('common.back')}
+        style={{ marginBottom: 24 }}
+      >
+        {t('common.back')}
       </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>

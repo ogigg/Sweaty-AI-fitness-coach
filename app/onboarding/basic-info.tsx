@@ -224,6 +224,15 @@ export default function BasicInfoScreen() {
           {t('onboarding.basicInfo.save')}
         </Button>
       </View>
+      <Button
+        onPress={() => router.back()}
+        variant='ghost'
+        size='small'
+        accessibilityLabel={t('common.back')}
+        style={{ marginBottom: 24 }}
+      >
+        {t('common.back')}
+      </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>
   );

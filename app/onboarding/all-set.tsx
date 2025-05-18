@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Typography } from '../../components/Typography';
 import { useTheme } from '../../theme';
+import { Button } from '../components/Button';
 import { onboardingRoutes } from './onboardingRoutes';
 import { useOnboardingState } from './useOnboardingState';
 
@@ -68,18 +69,24 @@ export default function AllSetScreen() {
       <Typography variant='bodyLarge' color='secondary' align='center' style={styles.subtext}>
         {t('onboarding.allSet.subtext')}
       </Typography>
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: theme.colors.accentPrimary }]}
-        activeOpacity={0.85}
+      <Button
         onPress={handleGoToPlan}
+        variant='primary'
+        size='large'
         accessibilityLabel={t('onboarding.allSet.cta')}
-        accessibilityRole='button'
-        accessible
+        style={{ marginBottom: 8 }}
       >
-        <Typography variant='button' align='center' color='primary' style={styles.buttonText}>
-          {t('onboarding.allSet.cta')}
-        </Typography>
-      </TouchableOpacity>
+        {t('onboarding.allSet.cta')}
+      </Button>
+      <Button
+        onPress={() => router.back()}
+        variant='ghost'
+        size='small'
+        accessibilityLabel={t('common.back')}
+        style={{ marginBottom: 24 }}
+      >
+        {t('common.back')}
+      </Button>
       <ProgressDots total={TOTAL_STEPS} current={CURRENT_STEP} />
     </View>
   );
@@ -106,15 +113,6 @@ const styles = StyleSheet.create({
   subtext: {
     marginBottom: 40,
     maxWidth: 320,
-  },
-  button: {
-    width: '100%',
-    borderRadius: 12,
-    paddingVertical: 16,
-    marginBottom: 48,
-  },
-  buttonText: {
-    color: '#fff',
   },
   dotsContainer: {
     flexDirection: 'row',

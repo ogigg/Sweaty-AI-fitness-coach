@@ -3,7 +3,8 @@
     "welcome": {
       "headline": "Start Your Fitness Journey, Smarter",
       "description": "Your personalized AI coach adapts to your progress, helping you build strength and confidence in the gym, safely and effectively.",
-      "getStarted": "Get Started"
+      "getStarted": "Get Started",
+      "skip": "Skip onboarding"
     },
     "goal": {
       "headline": "What's your main fitness goal?",
@@ -67,6 +68,7 @@
       "lbs": "lbs",
       "cm": "cm",
       "ft": "ft"
-    }
+    },
+    "back": "Back"
   }
 }
